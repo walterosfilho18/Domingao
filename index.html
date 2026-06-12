@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Convite Especial</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    text-align:center;
+    background:#f5f5f5;
+    padding-top:100px;
+}
+
+.container{
+    background:white;
+    max-width:500px;
+    margin:auto;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 0 15px rgba(0,0,0,.1);
+}
+
+button{
+    padding:12px 25px;
+    margin:10px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.sim{
+    background:#28a745;
+    color:white;
+}
+
+.nao{
+    background:#dc3545;
+    color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>❤️ Tenho um convite especial para você ❤️</h2>
+    <p>Você aceita ir à igreja comigo neste domingo?</p>
+
+    <button class="sim" onclick="aceitou()">Sim</button>
+    <button class="nao" onclick="negou()">Não</button>
+
+    <p id="mensagem"></p>
+</div>
+
+<script>
+let contador = 0;
+
+const frases = [
+    "Tem certeza? 😢",
+    "Pensa bem... 🙏",
+    "Vai ser um momento especial ❤️",
+    "Prometo que você vai gostar 😅",
+    "Última chance..."
+];
+
+function aceitou(){
+    document.getElementById("mensagem").innerHTML =
+    "<h3>🥳 Que alegria! Te espero lá ❤️</h3>";
+}
+
+function negou(){
+
+    if(contador < frases.length){
+        alert(frases[contador]);
+        contador++;
+    }else{
+        document.getElementById("mensagem").innerHTML =
+        "<h3>😊 Tudo bem! Respeito sua decisão.</h3>";
+    }
+}
+</script>
+
+</body>
+</html>
