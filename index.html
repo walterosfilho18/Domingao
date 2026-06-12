@@ -6,212 +6,294 @@
 <title>Convite Especial ❤️</title>
 
 <style>
+
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
 }
 
 body{
-    background:linear-gradient(135deg,#0f172a,#1e293b);
-    color:white;
-    font-family:Arial, Helvetica, sans-serif;
-    height:100vh;
-    overflow:hidden;
+height:100vh;
+background:linear-gradient(135deg,#020617,#0f172a,#1e293b);
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+color:white;
 }
 
 .container{
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    text-align:center;
-    padding:20px;
+text-align:center;
+padding:20px;
+width:100%;
+max-width:500px;
+}
+
+.emoji-principal{
+font-size:70px;
+margin-bottom:20px;
+animation:flutuar 2s infinite ease-in-out;
+}
+
+@keyframes flutuar{
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(-10px);}
 }
 
 h1{
-    margin-bottom:20px;
-    min-height:60px;
+font-size:28px;
+margin-bottom:15px;
 }
 
 p{
-    margin-bottom:30px;
-    font-size:20px;
-}
-
-button{
-    padding:15px 35px;
-    border:none;
-    border-radius:12px;
-    cursor:pointer;
-    font-size:18px;
-    transition:.3s;
-}
-
-#sim{
-    background:#22c55e;
-    color:white;
-}
-
-#nao{
-    background:#ef4444;
-    color:white;
+font-size:20px;
+margin-bottom:35px;
+color:#d1d5db;
 }
 
 .botoes{
-    display:none;
-    gap:20px;
-    position:relative;
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
 }
 
-.sucesso{
-    animation:zoom 1s ease;
+button{
+border:none;
+padding:15px 30px;
+border-radius:15px;
+font-size:18px;
+cursor:pointer;
+transition:.3s;
 }
 
-@keyframes zoom{
-    from{
-        transform:scale(.5);
-        opacity:0;
-    }
-    to{
-        transform:scale(1);
-        opacity:1;
-    }
+#sim{
+background:#16a34a;
+color:white;
 }
+
+#sim:hover{
+transform:scale(1.05);
+}
+
+#nao{
+background:#dc2626;
+color:white;
+}
+
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.7);
+display:none;
+justify-content:center;
+align-items:center;
+padding:20px;
+z-index:9999;
+}
+
+.modal-card{
+background:white;
+color:#111827;
+width:100%;
+max-width:350px;
+border-radius:25px;
+padding:30px;
+text-align:center;
+animation:aparecer .3s ease;
+}
+
+@keyframes aparecer{
+from{
+opacity:0;
+transform:scale(.8);
+}
+to{
+opacity:1;
+transform:scale(1);
+}
+}
+
+.modal-emoji{
+font-size:55px;
+margin-bottom:10px;
+}
+
+.modal-card h2{
+margin-bottom:10px;
+}
+
+.modal-card p{
+color:#6b7280;
+font-size:16px;
+margin-bottom:20px;
+}
+
+.modal-card button{
+width:100%;
+background:#ff5f8f;
+color:white;
+}
+
+.resultado{
+animation:aparecer .8s ease;
+}
+
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-    <h1 id="titulo"></h1>
+<div class="emoji-principal">🙏</div>
 
-    <p id="texto"></p>
+<h1>Convite Especial para ANA VICTORIA ❤️</h1>
 
-    <div class="botoes" id="botoes">
-        <button id="sim" onclick="aceitou()">Sim ❤️</button>
-        <button id="nao">Não 😅</button>
-    </div>
+<p>
+Você aceita ir à igreja comigo neste domingo?
+</p>
+
+<div class="botoes">
+
+<button id="sim">
+Sim ❤️
+</button>
+
+<button id="nao">
+Não 😅
+</button>
+
+</div>
+
+</div>
+
+<div class="modal" id="modal">
+
+<div class="modal-card">
+
+<div class="modal-emoji" id="modalEmoji">
+🤔
+</div>
+
+<h2 id="modalTitulo">
+Pensa bem...
+</h2>
+
+<p id="modalTexto">
+Vai ser um momento especial ❤️
+</p>
+
+<button onclick="fecharModal()">
+❤️ Tudo bem, vou pensar
+</button>
+
+</div>
 
 </div>
 
 <script>
 
-const titulo = document.getElementById("titulo");
-const texto = document.getElementById("texto");
-const botoes = document.getElementById("botoes");
+const modal = document.getElementById("modal");
 
-function digitar(elemento, textoDigitar, velocidade=60){
+const mensagens = [
 
-    let i = 0;
+{
+emoji:"🤔",
+titulo:"Pensa bem...",
+texto:"Vai ser um momento especial ❤️"
+},
 
-    const intervalo = setInterval(() => {
+{
+emoji:"🥺",
+titulo:"Tem certeza?",
+texto:"Prometo que será um momento muito leve."
+},
 
-        elemento.innerHTML += textoDigitar.charAt(i);
+{
+emoji:"🍔",
+titulo:"Vai ter lanche depois",
+texto:"Agora ficou mais interessante né? 😅"
+},
 
-        i++;
+{
+emoji:"🙏",
+titulo:"Última chance",
+texto:"Tenho certeza que você vai gostar."
+},
 
-        if(i >= textoDigitar.length){
-            clearInterval(intervalo);
-        }
-
-    }, velocidade);
-
+{
+emoji:"😂",
+titulo:"O botão NÃO está nervoso",
+texto:"Mas você está insistindo bastante..."
 }
 
-setTimeout(()=>{
-    digitar(titulo,"Oi ❤️");
-},500);
-
-setTimeout(()=>{
-    texto.innerHTML="Tenho um convite especial para você...";
-},2500);
-
-setTimeout(()=>{
-    titulo.innerHTML="🙏";
-    texto.innerHTML="Você aceita ir à igreja comigo neste domingo?";
-    botoes.style.display="flex";
-},5000);
+];
 
 let tentativas = 0;
 
-const frases = [
-    "Tem certeza? 🥺",
-    "Pensa bem 😅",
-    "Vai ter café depois ☕",
-    "Prometo que vai ser legal 🙏",
-    "Última chance 👀",
-    "O botão NÃO está ficando nervoso 😂",
-    "Você realmente quer apertar isso? 🤔",
-    "Tá ficando difícil defender você 😅"
-];
-
 const botaoNao = document.getElementById("nao");
 
-botaoNao.addEventListener("mouseover",()=>{
+function fecharModal(){
+modal.style.display = "none";
+}
 
-    tentativas++;
+botaoNao.addEventListener("click",()=>{
 
-    if(tentativas <= frases.length){
-        alert(frases[tentativas-1]);
-    }
+if(tentativas < mensagens.length){
 
-    if(tentativas >= 4){
+document.getElementById("modalEmoji").innerHTML =
+mensagens[tentativas].emoji;
 
-        const largura = window.innerWidth - 180;
-        const altura = window.innerHeight - 100;
+document.getElementById("modalTitulo").innerHTML =
+mensagens[tentativas].titulo;
 
-        const x = Math.random()*largura;
-        const y = Math.random()*altura;
+document.getElementById("modalTexto").innerHTML =
+mensagens[tentativas].texto;
 
-        botaoNao.style.position="absolute";
-        botaoNao.style.left=x+"px";
-        botaoNao.style.top=y+"px";
-    }
+modal.style.display = "flex";
 
-    if(tentativas === 10){
+tentativas++;
 
-        alert("😂 Tá bom, você venceu.");
+return;
+}
 
-        botaoNao.onclick = () => {
+const largura = window.innerWidth - 150;
+const altura = window.innerHeight - 100;
 
-            document.body.innerHTML = `
-            <div class="container sucesso">
-                <h1>😎 Você conseguiu clicar!</h1>
-                <p>
-                    Tudo bem 😊<br><br>
-                    O convite continua de pé ❤️
-                </p>
-            </div>
-            `;
-        };
-
-        botaoNao.style.position="static";
-    }
+botaoNao.style.position = "fixed";
+botaoNao.style.left = Math.random()*largura + "px";
+botaoNao.style.top = Math.random()*altura + "px";
 
 });
 
-function aceitou(){
+document.getElementById("sim").addEventListener("click",()=>{
 
-    document.body.innerHTML = `
-    <div class="container sucesso">
+document.body.innerHTML = `
 
-        <h1>🎉🥳 Que alegria! 🥳🎉</h1>
+<div class="container resultado">
 
-        <p>
-            Te espero no domingo ❤️
-            <br><br>
-            "Porque onde estiverem dois ou três reunidos em meu nome,
-            ali eu estou."
-            <br><br>
-            Mateus 18:20 🙏
-        </p>
+<div style="font-size:90px;margin-bottom:20px;">
+🎉
+</div>
 
-    </div>
-    `;
-}
+<h1>Que alegria! ❤️</h1>
+
+<p>
+Te espero no domingo 🙏
+<br><br>
+"Porque onde estiverem dois ou três reunidos em meu nome,
+ali eu estou."
+<br><br>
+Mateus 18:20
+</p>
+
+</div>
+
+`;
+
+});
 
 </script>
 
