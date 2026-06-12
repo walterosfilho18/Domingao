@@ -3,42 +3,81 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Convite Especial</title>
+<title>Convite Especial ❤️</title>
 
 <style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
 body{
-    font-family: Arial, sans-serif;
-    text-align:center;
-    background:#f5f5f5;
-    padding-top:100px;
+    background:linear-gradient(135deg,#0f172a,#1e293b);
+    color:white;
+    font-family:Arial, Helvetica, sans-serif;
+    height:100vh;
+    overflow:hidden;
 }
 
 .container{
-    background:white;
-    max-width:500px;
-    margin:auto;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 0 15px rgba(0,0,0,.1);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    text-align:center;
+    padding:20px;
+}
+
+h1{
+    margin-bottom:20px;
+    min-height:60px;
+}
+
+p{
+    margin-bottom:30px;
+    font-size:20px;
 }
 
 button{
-    padding:12px 25px;
-    margin:10px;
+    padding:15px 35px;
     border:none;
-    border-radius:10px;
+    border-radius:12px;
     cursor:pointer;
     font-size:18px;
+    transition:.3s;
 }
 
-.sim{
-    background:#28a745;
+#sim{
+    background:#22c55e;
     color:white;
 }
 
-.nao{
-    background:#dc3545;
+#nao{
+    background:#ef4444;
     color:white;
+}
+
+.botoes{
+    display:none;
+    gap:20px;
+    position:relative;
+}
+
+.sucesso{
+    animation:zoom 1s ease;
+}
+
+@keyframes zoom{
+    from{
+        transform:scale(.5);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
 }
 </style>
 </head>
@@ -46,41 +85,134 @@ button{
 <body>
 
 <div class="container">
-    <h2>❤️ Tenho um convite especial para você ❤️</h2>
-    <p>Você aceita ir à igreja comigo neste domingo?</p>
 
-    <button class="sim" onclick="aceitou()">Sim</button>
-    <button class="nao" onclick="negou()">Não</button>
+    <h1 id="titulo"></h1>
 
-    <p id="mensagem"></p>
+    <p id="texto"></p>
+
+    <div class="botoes" id="botoes">
+        <button id="sim" onclick="aceitou()">Sim ❤️</button>
+        <button id="nao">Não 😅</button>
+    </div>
+
 </div>
 
 <script>
-let contador = 0;
+
+const titulo = document.getElementById("titulo");
+const texto = document.getElementById("texto");
+const botoes = document.getElementById("botoes");
+
+function digitar(elemento, textoDigitar, velocidade=60){
+
+    let i = 0;
+
+    const intervalo = setInterval(() => {
+
+        elemento.innerHTML += textoDigitar.charAt(i);
+
+        i++;
+
+        if(i >= textoDigitar.length){
+            clearInterval(intervalo);
+        }
+
+    }, velocidade);
+
+}
+
+setTimeout(()=>{
+    digitar(titulo,"Oi ❤️");
+},500);
+
+setTimeout(()=>{
+    texto.innerHTML="Tenho um convite especial para você...";
+},2500);
+
+setTimeout(()=>{
+    titulo.innerHTML="🙏";
+    texto.innerHTML="Você aceita ir à igreja comigo neste domingo?";
+    botoes.style.display="flex";
+},5000);
+
+let tentativas = 0;
 
 const frases = [
-    "Tem certeza? 😢",
-    "Pensa bem... 🙏",
-    "Vai ser um momento especial ❤️",
-    "Prometo que você vai gostar 😅",
-    "Última chance..."
+    "Tem certeza? 🥺",
+    "Pensa bem 😅",
+    "Vai ter café depois ☕",
+    "Prometo que vai ser legal 🙏",
+    "Última chance 👀",
+    "O botão NÃO está ficando nervoso 😂",
+    "Você realmente quer apertar isso? 🤔",
+    "Tá ficando difícil defender você 😅"
 ];
 
-function aceitou(){
-    document.getElementById("mensagem").innerHTML =
-    "<h3>🥳 Que alegria! Te espero lá ❤️</h3>";
-}
+const botaoNao = document.getElementById("nao");
 
-function negou(){
+botaoNao.addEventListener("mouseover",()=>{
 
-    if(contador < frases.length){
-        alert(frases[contador]);
-        contador++;
-    }else{
-        document.getElementById("mensagem").innerHTML =
-        "<h3>😊 Tudo bem! Respeito sua decisão.</h3>";
+    tentativas++;
+
+    if(tentativas <= frases.length){
+        alert(frases[tentativas-1]);
     }
+
+    if(tentativas >= 4){
+
+        const largura = window.innerWidth - 180;
+        const altura = window.innerHeight - 100;
+
+        const x = Math.random()*largura;
+        const y = Math.random()*altura;
+
+        botaoNao.style.position="absolute";
+        botaoNao.style.left=x+"px";
+        botaoNao.style.top=y+"px";
+    }
+
+    if(tentativas === 10){
+
+        alert("😂 Tá bom, você venceu.");
+
+        botaoNao.onclick = () => {
+
+            document.body.innerHTML = `
+            <div class="container sucesso">
+                <h1>😎 Você conseguiu clicar!</h1>
+                <p>
+                    Tudo bem 😊<br><br>
+                    O convite continua de pé ❤️
+                </p>
+            </div>
+            `;
+        };
+
+        botaoNao.style.position="static";
+    }
+
+});
+
+function aceitou(){
+
+    document.body.innerHTML = `
+    <div class="container sucesso">
+
+        <h1>🎉🥳 Que alegria! 🥳🎉</h1>
+
+        <p>
+            Te espero no domingo ❤️
+            <br><br>
+            "Porque onde estiverem dois ou três reunidos em meu nome,
+            ali eu estou."
+            <br><br>
+            Mateus 18:20 🙏
+        </p>
+
+    </div>
+    `;
 }
+
 </script>
 
 </body>
